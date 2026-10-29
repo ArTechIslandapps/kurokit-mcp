@@ -1,0 +1,67 @@
+# KuroKit MCP
+
+KuroKit watches web pages, RSS feeds, and official APIs. It tells an AI assistant when something changes.
+
+Official setup guide: https://kurokit.com/docs/mcp
+Dashboard: https://kurokit.com
+Pricing: https://kurokit.com/pricing
+Chrome extension: https://chromewebstore.google.com/detail/kurokit-webpage-change-mo/fndfgkdjhbaoiadepfhgmhbgfjgfpiao
+Edge extension: https://microsoftedge.microsoft.com/addons/detail/kurokit-webpage-change-/oiohkchggekefhcdamceinpmabpfiifk
+
+## Endpoint
+
+- MCP URL: https://mcp.kurokit.com/mcp
+- Transport: Streamable HTTP
+- Authentication: Authorization: Bearer <access_token>
+
+If the client lists KuroKit in its own connector or MCP marketplace, use that listing and complete OAuth. Use a manually pasted Bearer token only for a custom remote server.
+
+Token page: https://kurokit.com/dashboard/mcp
+
+Do not tell the user to open https://kurokit.com/oauth/authorize. It only works when the MCP client opens it with ?client_id= in the address bar.
+
+## First run
+
+1. Create a KuroKit account.
+2. For webpage watches, install the browser extension (Chrome or Edge) and allow the watched site.
+3. Add the MCP URL to the AI app, or use the app's KuroKit listing.
+4. Call listMonitors to check the connection.
+5. Create a monitor for the user's page, RSS feed, or official API.
+
+RSS and official-API watches do not need the extension. Webpage watches need the extension because MCP cannot use the user's browser session.
+
+## Client notes
+
+- Claude: docs/connect-claude.md
+- Cursor: docs/connect-cursor.md
+- ChatGPT/Codex: docs/connect-chatgpt.md
+- Grok/Grok Bot: docs/connect-grok-bot.md
+- Another client: docs/connect-any-client.md
+- Support matrix: docs/client-support.md
+
+Grok and Grok Bot accept a custom remote MCP server. Meta Muse supports MCP through its Connector Platform, but KuroKit is not a reviewed Muse connector. OpenAI dots uses plugins, and KuroKit is not a published plugin. Do not claim KuroKit is listed in the Muse or dots directories, and do not tell users that a direct custom MCP URL works in dots.
+
+## Workflow automation (push)
+
+For n8n, Make, Zapier, or your own service, use a webhook. Add `webhook` to notifyChannels and pass webhookUrl; KuroKit POSTs signed JSON (`schema_version: 2`), timeout 5s, retries 1m/5m/30m/30m (5 attempts total). `getEvents` is pull-only; there is no MCP match stream. Guide: docs/webhooks.md.
+
+## Common errors
+
+- No tools or 401: create a new token, paste it into the app's settings, reload.
+- "Not in the MCP catalog": choose Add custom / manual remote server, use https://mcp.kurokit.com/mcp in lowercase.
+- Last check blank: open the watched page, click the extension, and make sure This site says Allowed.
+- First check has 0 events: normal; it saves a snapshot. Wait for the second check.
+- n8n/Make/Zapier receives nothing: check Webhook, use the production HTTPS URL, activate the workflow, and return 2xx within 5s. See docs/webhooks.md.
+
+## Plans
+
+The free plan includes one active monitor and does not expire. Current prices and limits come from https://kurokit.com/pricing. Do not invent plan numbers.
+
+## License
+
+Documentation and images: CC BY 4.0 (LICENSE).
+JSON, YAML, and other code examples: MIT (LICENSE-CODE).
+
+## Repository
+
+This repository contains setup documentation and examples only. The hosted MCP server, web app, and extension source code are not published here.
