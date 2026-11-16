@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.kurokit/mcp",
+  "title": "KuroKit",
+  "description": "AI-native website, RSS, and API monitoring with MCP change events and alerts.",
+  "version": "1.0.0",
+  "websiteUrl": "https://kurokit.com",
+  "repository": {
+    "url": "https://github.com/ArTechIslandapps/kurokit-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://www.kurokit.com/kurokit.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": ["any"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.kurokit.com/mcp"
+    }
+  ]
+}
